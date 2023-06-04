@@ -1,12 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>Przykład Fetch API i Petite Vue</title>
 </head>
 <body>
-    
+      <div id="productData" v-scope>
+        <button @click="fetchData">Pobierz dane</button>
+        <div v-if="data">
+            {{data.title}}
+            {{data.description}}
+        </div>
+      </div>
+
+      <script type="module">
+        import { createApp } from 'https://unpkg.com/petite-vue?module'
+      
+        createApp({
+          data: null,
+          fetchData() {
+            fetch('https://dummyjson.com/products/1')
+            .then(response => response.json())
+            .then(data => {
+                this.data = data;
+            })
+            .catch(err => {
+                console.error(err)
+            })
+          }
+        }).mount("#productData")
+      </script>
+</div>
 </body>
 </html>
