@@ -4,27 +4,25 @@
   <title>Przykład Fetch API i Petite Vue</title>
 </head>
 <body>
-  <header>
-    <img src="./assets/images/logo_temp.png" alt="smaczne.go logo">
-    <nav>
-        <!--NAVIGATION MENU FOR LOGIN AND OTHER-->
-    </nav>
-  </header>
-  <main>
-    <section>
-      <!--CITY TEXT INPUT AND SEARCH BUTTON-->
-    </section>
-  </main>
-  <footer>
-    <img src="./assets/images/logo_temp.png" alt="smaczne.go logo">
-    <nav>
-      <!--DUMMY LINKS ABOUT PAGE TO LOOK PROFESSIONAL-->
-    </nav>
-    <section>
-      <!--LEGAL NOTE ABOUT AUTHORS-->
-    </section>
-  </footer>
-  <!--TEST GROUND
+    <header>
+      <div>
+        <img src="./assets/images/logo_temp.png" alt="logo">
+      </div>
+      <nav>
+        <div id="hamburgerMenu" v-scope>
+          <button  @click="login">Login</button>
+          <div v-if="data">
+            {{data}}
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+
+    </main>
+    <footer>
+
+    </footer>
       <div id="productData" v-scope>
         <button @click="fetchData">Pobierz dane</button>
         <div v-if="data">
@@ -49,8 +47,27 @@
             })
           }
         }).mount("#productData")
+
+        createApp({
+          isLogged: false,
+          data: null,
+          login(){
+            fetch('../backend/login.php', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                this.data = data;
+            })
+            .catch(err => {
+              console.error(err);
+            });
+          }
+        }).mount("#hamburgerMenu")
       </script>
-    -->
-</div>
 </body>
 </html>
