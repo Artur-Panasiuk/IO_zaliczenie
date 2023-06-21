@@ -1,18 +1,18 @@
 <?php
 // Pobierz wartość zmiennej city przesłanej ze strony
-$city = $_POST['city'];
+$city = 'Warszawa';
 
 // Przygotuj dane o restauracjach dla danego miasta
 $restaurants = array(
     array(
         'id' => '1',
         'name' => 'McDonalds',
-        'address' => 'Szczecin'
+        'city' => 'Szczecin'
     ),
     array(
         'id' => '2',
         'name' => 'KFC',
-        'address' => 'Warszawa'
+        'city' => 'Warszawa'
     ),
     // Dodaj więcej restauracji według potrzeb
 );
@@ -20,7 +20,7 @@ $restaurants = array(
 // Filtruj restauracje na podstawie podanego miasta
 $filteredRestaurants = array();
 foreach ($restaurants as $restaurant) {
-    if ($restaurant['address'] == $city) {
+    if ($restaurant['city'] == $city) {
         $filteredRestaurants[] = $restaurant;
     }
 }
