@@ -37,8 +37,8 @@
     <main id="mainContent" v-scope>
         <div v-if="index == 0"> <!--Wprowadź miasto-->
             <form @submit.prevent="submitCity">
-                <label for="cityText">Wprowadź nazwę miasta</label>
-                <input type="text" id="cityText" v-model="cityText">
+                <label for="city">Wprowadź nazwę miasta</label>
+                <input type="text" id="city" v-model="city">
                 <button type="submit">Szukaj</button>
             </form>
         </div>
@@ -46,10 +46,19 @@
 
         </div>
         <div v-if="index == 1"><!--Lista Restauracji-->
-
+            <ul>
+              <li v-for="restaurant in restaurantsList" :key="restaurant.id">
+                {{restaurant.name}}
+                <button></button>
+              </li>
+            </ul>
         </div>
         <div v-if="index == 2"><!--Lista produktów restauracji-->
+            <ul>
+              <li>
 
+              </li>
+            </ul>
         </div>
         <div v-if="index == 3"><!--koszyk-->
 
@@ -102,10 +111,27 @@
 
         createApp({
           index: state.pageIndex,
-          cityText: null,
-          data: null,
+          city: '',
+          restaurantsList: null,
           submitCity(){
-            console.log(this.cityText)
+            fetch('../backend/restaurants.php', {
+              method: 'POST',
+              body: city
+            })
+            .then(res => res.json())
+            .then(data => {
+              this.restaurantsList = data;
+              this.index = 1 //LIST RESTAURACJI
+            })
+            .catch(err => {
+              console.log('Error:', err)
+            })
+          },
+          getItems(){
+            fetch('../backend/items.php', {
+              method: 'POST',
+              body: cityText
+            })
           }
         }).mount("#mainContent")
       </script>
