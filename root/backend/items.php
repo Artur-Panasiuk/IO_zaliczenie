@@ -1,26 +1,54 @@
 <?php
+// Połączenie z bazą danych
+$servername = "localhost";
+$username = "nazwa_uzytkownika";
+$password = "haslo";
+$dbname = "nazwa_bazy_danych";
 
-$data = array(
-    array(
-        'id' => '1',
-        'name' => 'borger',
-        'price' => '7.99',
-        'description' => 'Gąbka, kapeć, 2 sosy i 1 pikiel. Tylko tyle i aż tyle'
-    ),
-    array(
-        'id' => '2',
-        'name' => 'iceCream',
-        'price' => '14.99',
-        'description' => 'Czy wiedziałeś że maszyny do lodów w MC to scam?'
-    ),
-);
+// Utworzenie połączenia
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Encode the data as JSON
-$jsonData = json_encode($data);
+// Sprawdzenie połączenia
+if ($conn->connect_error) {
+    die("Nieudane połączenie: " . $conn->connect_error);
+}
 
-// Set the response header to indicate JSON content
-header('Content-Type: application/json');
+// Sprawdzenie czy przekazano ID restauracji
+if (isset($_POST['restaurant_id'])) {
+    $restaurantId = $_POST['restaurant_id'];
 
-// Echo the JSON string
-echo $jsonData;
+    // Zapytanie SQL
+    $sql = "SELECT * FROM items WHERE restaurant_id = $restaurantId";
+
+    // Wykonanie zapytania i pobranie wyników
+    $result = $conn->query($sql);
+
+    // Tablica na produkty
+    $products = array();
+
+    // Przetwarzanie wyników
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Dodanie produktu do tablicy
+            $product = array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'price' => $row['price']
+            );
+            $products[] = $product;
+        }
+    }
+
+    // Zamknięcie połączenia
+    $conn->close();
+
+    // Ustawienie nagłówka odpowiedzi jako JSON
+    header('Content-Type: application/json');
+
+    // Wyświetlenie wyników jako JSON
+    echo json_encode($products);
+} else {
+    // Brak przekazanego ID restauracji
+    echo "Brak przekazanego ID restauracji.";
+}
 ?>
