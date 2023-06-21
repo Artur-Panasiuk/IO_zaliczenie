@@ -12,20 +12,20 @@
       </div>
       <nav>
         <div id="hamburgerMenu" v-scope>
-          <div v-if="index == 0">
+          <div v-if="index == 0"> <!--niezalogowany-->
             <button  @click="login">Zaloguj</button>
             <button  @click="koszyk">Koszyk</button>
           </div>
-          <div v-if="index == 1">
+          <div v-if="index == 1"> <!--zalogowany-->
             <button  @click="koszyk">Koszyk</button>
             <button  @click="zalogowany_wyloguj">Wyloguj</button>
           </div>
-          <div v-if="index == 2">
+          <div v-if="index == 2"> <!--dostawca-->
             <button  @click="dostawca_zamowienia">Zamówienia</button>
             <button  @click="dostawca_ustawienia">Ustawienia</button>
             <button  @click="dostawca_wyloguj">Wyloguj</button>
           </div>
-          <div v-if="index == 3">
+          <div v-if="index == 3"> <!--restaurator-->
             <button  @click="restaurator_menu">Zamówienia</button>
             <button  @click="restaurator_zamowienia">Zamówienia</button>
             <button  @click="restaurator_oceny">Ustawienia</button>
@@ -35,10 +35,11 @@
       </nav>
     </header>
     <main id="mainContent" v-scope>
-        <div v-if="index == 0">
+        <div v-if="index == 0"> <!--Wprowadź miasto-->
             <form @submit.prevent="submitCity">
                 <label for="cityText">Wprowadź nazwę miasta</label>
                 <input type="text" id="cityText" v-model="cityText">
+                <button type="submit">Szukaj</button>
             </form>
         </div>
         <div v-if="index == 1"> <!--Zaloguj-->
@@ -104,7 +105,7 @@
           cityText: null,
           data: null,
           submitCity(){
-            console.log(index)
+            console.log(this.cityText)
           }
         }).mount("#mainContent")
       </script>
