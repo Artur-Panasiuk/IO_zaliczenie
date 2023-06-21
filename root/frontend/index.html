@@ -113,7 +113,7 @@
             <input type="checkbox" id="emailSpam">
 
 
-            <button type="submit">Zapłać</button>
+            <button @click="pageIndex = 5">Zapłać</button>
           </form>
         </div>
         <div v-if="pageIndex == 5"><!--Status Zamówienia-->
@@ -169,6 +169,14 @@
           orderStatus: "NO",
           InputCity: '',
           restaurantsList: null,
+          login: null,
+          haslo: null,
+          DeliveryCity: null,
+          DeliveryStreet: null,
+          DeliveryName: null,
+          DeliverySurname: null,
+          DeliveryPhone: null,
+          DeliveryCity: null,
           submitCity(){ //CITY SEARCH-----------------
             fetch('../backend/restaurants.php', {
               method: 'POST',
