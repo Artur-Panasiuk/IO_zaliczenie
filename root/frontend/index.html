@@ -38,14 +38,19 @@
         <div v-if="index == 0"> <!--Wprowadź miasto-->
             <form @submit.prevent="submitCity">
                 <label for="city">Wprowadź nazwę miasta</label>
-                <input type="text" id="city" v-model="city">
+                <input type="text" id="city" v-model="InputCity">
                 <button type="submit">Szukaj</button>
             </form>
         </div>
         <div v-if="index == 1"> <!--Zaloguj-->
-
+          <form @submit.prevent="logowanie">
+            <p>Zaloguj się</p>
+            <input type="text" placeholder="Login" v-model="login">
+            <input type="text" placeholder="Hasło" v-model="haslo">
+            <button type="submit">Zaloguj</button>
+          </form>
         </div>
-        <div v-if="index == 1"><!--Lista Restauracji-->
+        <div v-if="index == 2"><!--Lista Restauracji-->
             <ul>
               <li v-for="restaurant in restaurantsList" :key="restaurant.id">
                 {{restaurant.name}}
@@ -53,32 +58,81 @@
               </li>
             </ul>
         </div>
-        <div v-if="index == 2"><!--Lista produktów restauracji-->
+        <div v-if="index == 3"><!--Lista produktów restauracji-->
             <ul>
               <li>
 
               </li>
             </ul>
         </div>
-        <div v-if="index == 3"><!--koszyk-->
+        <div v-if="index == 4"><!--koszyk-->
+          <p>Koszyk</p>
+          <form @submit.prevent="koszyk">
+            <ul>
+              <li>
+
+              </li>
+            </ul>
+            <label for="DeliveryCity">Miasto:</label>
+            <input type="text" id="DeliveryCity" v-model="DeliveryCity">
+
+            <label for="DeliveryStreet">Ulica:</label>
+            <input type="text" id="DeliveryStreet" v-model="DeliveryStreet">
+
+            <label for="DeliveryName">Imię: </label>
+            <input type="text" id="DeliveryName" v-model="DeliveryName">
+
+            <label for="DeliverySurname">Nazwisko: </label>
+            <input type="text" id="DeliverySurname" v-model="DeliverySurname">
+
+            <label for="DeliveryPhone">Nr. tel.:</label>
+            <input type="text" id="DeliveryPhone" v-model="DeliveryPhone">
+
+
+            <label for="blik">BLIK</label>
+            <input type="radio" id="blik" value="blik">
+
+            <label for="karta">Karta</label>
+            <input type="radio" id="karta" value="karta">
+
+            <label for="gotowka">Gotówka</label>
+            <input type="radio" id="gotowka" value="gotowka">
+
+
+            <label for="regulamin">Akceptuję regulamin serwisu Smacznego</label>
+            <input type="checkbox" id="regulamin">
+
+            <label for="emailSpam">Chcę otrzymywać spam w swojej skrzynce email</label>
+            <input type="checkbox" id="emailSpam">
+
+
+            <button type="submit">Zapłać</button>
+          </form>
+        </div>
+        <div v-if="index == 5"><!--Status Zamówienia-->
 
         </div>
-        <div v-if="index == 4"><!--Status Zamówienia-->
+        <div v-if="index == 6"><!--Lista dostaw-->
+          <ul>
+            <li>
+
+            </li>
+          </ul>
+        </div>
+        <div v-if="index == 7"><!--Ustawienia dostawcy-->
 
         </div>
-        <div v-if="index == 5"><!--Lista dostaw-->
+        <div v-if="index == 8"><!--Menu restauracjia-->
+          <ul>
+            <li>
+
+            </li>
+          </ul>
+        </div>
+        <div v-if="index == 9"><!--Zamówienia restauracji-->
 
         </div>
-        <div v-if="index == 6"><!--Ustawienia dostawcy-->
-
-        </div>
-        <div v-if="index == 7"><!--Menu restauracjia-->
-
-        </div>
-        <div v-if="index == 8"><!--Zamówienia restauracji-->
-
-        </div>
-        <div v-if="index == 9"><!--Oceny restauracji-->
+        <div v-if="index == 10"><!--Oceny restauracji-->
 
         </div>
     </main>
@@ -88,10 +142,13 @@
 
       <script type="module">
         import { createApp, reactive } from 'https://unpkg.com/petite-vue?module'
+
         const state = reactive({
           userTypeId: 0,
           pageIndex: 0
         })
+
+        //MENU--------------------------------------------------
 
         createApp({
           index: state.userTypeId,
@@ -109,30 +166,33 @@
           }
         }).mount("#hamburgerMenu")
 
+        //CONTENT--------------------------------------------------
+
         createApp({
           index: state.pageIndex,
-          city: '',
+          InputCity: '',
           restaurantsList: null,
-          submitCity(){
+          submitCity(){ //CITY SEARCH-----------------
             fetch('../backend/restaurants.php', {
               method: 'POST',
-              body: city
+              body: this.InputCity
             })
             .then(res => res.json())
             .then(data => {
               this.restaurantsList = data;
-              this.index = 1 //LIST RESTAURACJI
+              this.index = 2 //LIST RESTAURACJI
             })
             .catch(err => {
               console.log('Error:', err)
             })
-          },
+          },//ITEMS SEARCH----------------------------
           getItems(){
             fetch('../backend/items.php', {
               method: 'POST',
               body: cityText
             })
           }
+
         }).mount("#mainContent")
       </script>
 </body>
