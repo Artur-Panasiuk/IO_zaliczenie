@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-  <title>Przykład Fetch API i Petite Vue</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Przyklad Fetch API i Petite Vue</title>
 </head>
 <body>
     <header>
@@ -10,64 +12,101 @@
       </div>
       <nav>
         <div id="hamburgerMenu" v-scope>
-          <button  @click="login">Login</button>
-          <div v-if="data">
-            {{data}}
+          <div v-if="index == 0">
+            <button  @click="login">Zaloguj</button>
+            <button  @click="koszyk">Koszyk</button>
+          </div>
+          <div v-if="index == 1">
+            <button  @click="koszyk">Koszyk</button>
+            <button  @click="zalogowany_wyloguj">Wyloguj</button>
+          </div>
+          <div v-if="index == 2">
+            <button  @click="dostawca_zamowienia">Zamówienia</button>
+            <button  @click="dostawca_ustawienia">Ustawienia</button>
+            <button  @click="dostawca_wyloguj">Wyloguj</button>
+          </div>
+          <div v-if="index == 3">
+            <button  @click="restaurator_menu">Zamówienia</button>
+            <button  @click="restaurator_zamowienia">Zamówienia</button>
+            <button  @click="restaurator_oceny">Ustawienia</button>
+            <button  @click="restaurator_wyloguj">Wyloguj</button>
           </div>
         </div>
       </nav>
     </header>
-    <main>
+    <main id="mainContent" v-scope>
+        <div v-if="index == 0">
+            <form @submit.prevent="submitCity">
+                <label for="cityText">Wprowadź nazwę miasta</label>
+                <input type="text" id="cityText" v-model="cityText">
+            </form>
+        </div>
+        <div v-if="index == 1"> <!--Zaloguj-->
 
+        </div>
+        <div v-if="index == 1"><!--Lista Restauracji-->
+
+        </div>
+        <div v-if="index == 2"><!--Lista produktów restauracji-->
+
+        </div>
+        <div v-if="index == 3"><!--koszyk-->
+
+        </div>
+        <div v-if="index == 4"><!--Status Zamówienia-->
+
+        </div>
+        <div v-if="index == 5"><!--Lista dostaw-->
+
+        </div>
+        <div v-if="index == 6"><!--Ustawienia dostawcy-->
+
+        </div>
+        <div v-if="index == 7"><!--Menu restauracjia-->
+
+        </div>
+        <div v-if="index == 8"><!--Zamówienia restauracji-->
+
+        </div>
+        <div v-if="index == 9"><!--Oceny restauracji-->
+
+        </div>
     </main>
     <footer>
 
     </footer>
-      <div id="productData" v-scope>
-        <button @click="fetchData">Pobierz dane</button>
-        <div v-if="data">
-            {{data.title}}
-            {{data.description}}
-        </div>
-      </div>
 
       <script type="module">
-        import { createApp } from 'https://unpkg.com/petite-vue?module'
-      
-        createApp({
-          data: null,
-          fetchData() {
-            fetch('https://dummyjson.com/products/1')
-            .then(response => response.json())
-            .then(data => {
-                this.data = data;
-            })
-            .catch(err => {
-                console.error(err)
-            })
-          }
-        }).mount("#productData")
+        import { createApp, reactive } from 'https://unpkg.com/petite-vue?module'
+        const state = reactive({
+          userTypeId: 0,
+          pageIndex: 0
+        })
 
         createApp({
+          index: state.userTypeId,
           isLogged: false,
           data: null,
           login(){
-            fetch('../backend/login.php', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-            })
-            .then(res => res.json())
+            fetch('../backend/login.php')
+            .then(response => response.json())
             .then(data => {
-                console.log(data)
-                this.data = data;
+              console.log(data); // Output the parsed JSON response
             })
-            .catch(err => {
-              console.error(err);
-            });
+            .catch(error => {
+              console.error('Error:', error);
+            })
           }
         }).mount("#hamburgerMenu")
+
+        createApp({
+          index: state.pageIndex,
+          cityText: null,
+          data: null,
+          submitCity(){
+            console.log(index)
+          }
+        }).mount("#mainContent")
       </script>
 </body>
 </html>
