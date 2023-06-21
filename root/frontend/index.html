@@ -38,7 +38,7 @@
         <div v-if="pageIndex == 0"> <!--Wprowadź miasto-->
             <form @submit.prevent="submitCity">
                 <label for="InputCity">Wprowadź nazwę miasta</label>
-                <input type="text" id="InputCity" v-model="InputCity">
+                <input type="text" id="InputCity" name="InputCity" v-model="InputCity">
                 <button type="submit">Szukaj</button>
             </form>
         </div>
