@@ -14,8 +14,8 @@ if ($conn->connect_error) {
 }
 
 // Sprawdzenie czy przekazano ID restauracji
-if (isset($_GET['restaurant_id'])) {
-    $restaurantId = $_GET['restaurant_id'];
+if (isset($_POST['restaurant_id'])) {
+    $restaurantId = $_POST['restaurant_id'];
 
     // Zapytanie SQL
     $sql = "SELECT * FROM items WHERE restaurant_id = $restaurantId";
