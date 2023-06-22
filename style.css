@@ -1,0 +1,33 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+header{
+    width: 100vw;
+    background-color: rgb(196, 196, 196);
+}
+
+main{
+    text-align: center;
+    margin-top: 10vh;
+}
+
+footer{
+    height: 10vh;
+    width: 100vw;
+    background-color: rgb(196, 196, 196);
+    bottom: 0;
+    position: absolute;
+}
+
+input[type=submit]{
+    background-color: white;
+    text-decoration: none;
+    cursor: pointer;
+    width: 20em;
+    height: 5em;
+    margin: 2em;
+    
+}
